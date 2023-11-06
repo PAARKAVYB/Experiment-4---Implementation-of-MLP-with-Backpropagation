@@ -1,14 +1,10 @@
-# Experiment-4---Implementation-of-MLP-with-Backpropagation
-
+# Implementation of MLP with Backpropagation
 ## AIM:
-To implement a Multilayer Perceptron for Multi classification
-
+To implement a Multilayer Perceptron for Multi classification.
 ## EQUIPMENTS REQUIRED:
 Hardware – PCs
 Anaconda – Python 3.7 Installation / Google Colab /Jupiter Notebook
-
 ## RELATED THEORETICAL CONCEPT:
-
 A multilayer perceptron (MLP) is a feedforward artificial neural network that generates a set of outputs from a set of inputs. An MLP is characterized by several layers of input nodes connected as a directed graph between the input and output layers. MLP uses back propagation for training the network. MLP is a deep learning method.
 A multilayer perceptron is a neural network connecting multiple layers in a directed graph, which means that the signal path through the nodes only goes one way. Each node, apart from the input nodes, has a nonlinear activation function. An MLP uses backpropagation as a supervised learning technique.
 MLP is widely used for solving problems that require supervised learning as well as research into computational neuroscience and parallel distributed processing. Applications include speech recognition, image recognition and machine translation.
@@ -96,17 +92,14 @@ In the backward pass,
 
 ![image](https://user-images.githubusercontent.com/112920679/198814362-05a251fd-fceb-43cd-867b-75e6339d870a.png)
 
-
-
 ## ALGORITHM:
-
 1.Import the necessary libraries of python.
 
-2. After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
+2.After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
 
-3. Divide the dataset into two parts. While the first part contains the first four columns that we assign in the variable x. Likewise, the second part contains only the last column that is the class label. Further, assign it to the variable y.
+3.Divide the dataset into two parts. While the first part contains the first four columns that we assign in the variable x. Likewise, the second part contains only the last column that is the class label. Further, assign it to the variable y.
 
-4. Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
+4.Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
 Normalize our dataset. 
 
 5.In order to do that we call the StandardScaler() function. Basically, the StandardScaler() function subtracts the mean from a feature and scales it to the unit variance.
@@ -115,10 +108,83 @@ Normalize our dataset.
 
 7.In order to get the predicted values we call the predict() function on the testing data set.
 
-8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
+8.Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
-## PROGRAM 
+## PROGRAM:
+```
+Name : Paarkavy B
+Reg No : 212221230072
+```
 
-## OUTPUT 
+```
+import pandas as pd
+import sklearn
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
-## RESULT
+df = pd.read_csv('IRIS.csv')
+df.head
+
+names = ['sepal-length','sepal-width','petal-length','petal-width','Class']
+
+# Take first 4 columns ans assign them to variable "X"
+X = df.iloc[:,0:4]
+
+# Take first 5th columns and assign them to variable "Y". Object dtype refers to strings
+Y = df.select_dtypes(include=[object])
+
+X.head()
+
+Y.head()
+
+# Y actually contains all categories or classes
+Y.species.unique()
+
+# Now transforming categorial into numerical values
+le = preprocessing.LabelEncoder()
+Y = Y.apply(le.fit_transform)
+Y.head()
+
+# Train and test split (80% of data into training set and 20% into test data)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size = 0.20)
+
+# Feature Scaling
+scaler = StandardScaler() 
+scaler.fit(X_train)
+
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+mlp = MLPClassifier(hidden_layer_sizes=(10,10,10),max_iter=1000)
+mlp.fit(X_train,Y_train.values.ravel())
+
+predictions = mlp.predict(X_test)
+print(predictions)
+
+# Evaluation of algorithm performance in classifying flowers
+print(confusion_matrix(Y_test,predictions))
+print(classification_report(Y_test,predictions))
+```
+## OUTPUT:
+### FIRST FIVE ROWS:
+![output](op1.png)
+### FIRST FIVE ROWS OF X:
+![output](op2.png)
+### FIRST FIVE ROWS OF Y:
+![output](op3.png)
+### UNIQUE VALUES OF Y:
+![output](op4.png)
+### TRANSFORMING CATEGORICAL TO NUMERICAL VALUES:
+![output](op5.png)
+### PREDICTION:
+![output](op6.png)
+### CLASSIFICATION REPORT:
+![output](op7.png)
+### CONFUSION MATRIX:
+![output](op8.png)
+
+## RESULT:
+Thus, a program to implement Multilayer Perceptron for Multi Classification is successfully created and executed.
